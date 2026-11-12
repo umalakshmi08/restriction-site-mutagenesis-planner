@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Restriction Site Mutagenesis Planner</title>
+<style>
+:root{--bg:#f6f8f7;--card:#fff;--text:#1d2a24;--muted:#5b6b63;--accent:#1f7a5a;--border:#dce5e0;--code:#12201a;--codetext:#d7f5e6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1714;--card:#17221d;--text:#e6efe9;--muted:#9bb0a5;--accent:#4fd1a0;--border:#2a3a33;--code:#0a110e;--codetext:#d7f5e6}}
+:root[data-theme="dark"]{--bg:#0f1714;--card:#17221d;--text:#e6efe9;--muted:#9bb0a5;--accent:#4fd1a0;--border:#2a3a33;--code:#0a110e;--codetext:#d7f5e6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.6}
+header{background:var(--accent);color:#fff;padding:48px 20px;text-align:center}
+header h1{margin:0 0 8px;font-size:2rem}
+header p{margin:0;opacity:.9}
+main{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px}
+h2{margin-top:0;color:var(--accent);font-size:1.25rem}
+ul,ol{padding-left:22px;margin:0}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.member{border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.member b{display:block}
+.member span{color:var(--muted);font-size:.9rem}
+.tags span{display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:2px 12px;margin:3px 4px 3px 0;font-size:.9rem}
+.scroll{overflow-x:auto}
+pre{background:var(--code);color:var(--codetext);padding:14px;border-radius:8px;margin:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%}
+td,th{border:1px solid var(--border);padding:8px 10px;text-align:left}
+th{background:var(--bg)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.ok{color:var(--accent);font-weight:600}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Restriction Site Mutagenesis Planner</h1>
+  <p>Project Progress Update – 3</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Team</h2>
+  <div class="team">
+    <div class="member"><b>P. Umalakshmi</b><span>SE25UBIT069 · Core Bio-logic</span></div>
+    <div class="member"><b>Valligatla Tejasree</b><span>SE25UBIT072 · Software Architecture</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Progress Made</h2>
+  <p>The core bio-logic for the planner is built. Given a DNA sequence and a restriction enzyme, the program validates the DNA, looks for the restriction site, makes a simple one-base mutation, and checks whether the site was eliminated.</p>
+</section>
+
+<section>
+  <h2>Core Logic</h2>
+  <ol>
+    <li>Take the DNA sequence and enzyme as input.</li>
+    <li>Validate that the DNA contains only A, T, G and C.</li>
+    <li>Identify the selected restriction site.</li>
+    <li>Change one base at that location.</li>
+    <li>Verify that the restriction site was removed.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Supported Enzymes</h2>
+  <table>
+    <tr><th>Enzyme</th><th>Recognition site</th></tr>
+    <tr><td>EcoRI</td><td><code>GAATTC</code></td></tr>
+    <tr><td>BamHI</td><td><code>GGATCC</code></td></tr>
+    <tr><td>HindIII</td><td><code>AAGCTT</code></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Python Concepts Used</h2>
+  <div class="tags">
+    <span>dictionary</span><span>strings</span><span>input / output</span><span>if / elif / else</span><span>slicing</span><span>find()</span>
+  </div>
+</section>
+
+<section>
+  <h2>Testing</h2>
+  <p>Tested with the sequence below and the enzyme <b>EcoRI</b>. The program found the EcoRI site (<code>GAATTC</code>), made a single base change and confirmed the site was lost.</p>
+  <div class="scroll">
+<pre>DNA sequence: ATGCGTGAATTCCGATGGATCCATGC
+Enzyme (EcoRI/BamHI/HindIII): EcoRI
+
+Original: ATGCGTGAATTCCGATGGATCCATGC
+Mutated:  ATGCGTCAATTCCGATGGATCCATGC
+Position: 7
+Restriction site removed</pre>
+  </div>
+</section>
+
+<section>
+  <h2>Code</h2>
+  <p>Run with: <code>python3 mutagenesis_planner.py</code></p>
+  <div class="scroll">
+<pre>sites = {"EcoRI": "GAATTC", "BamHI": "GGATCC", "HindIII": "AAGCTT"}
+
+dna = input("DNA sequence: ").upper()
+enzyme = input("Enzyme (EcoRI/BamHI/HindIII): ")
+
+if set(dna) - set("ATGC"):
+    print("Invalid DNA sequence")
+elif enzyme not in sites:
+    print("Invalid enzyme")
+elif sites[enzyme] not in dna:
+    print("Restriction site not found")
+else:
+    site = sites[enzyme]
+    pos = dna.find(site)
+    new = dna[:pos] + "C" + dna[pos + 1:]
+
+    print("Original:", dna)
+    print("Mutated: ", new)
+    print("Position:", pos + 1)
+
+    if site not in new:
+        print("Restriction site removed")
+    else:
+        print("Restriction site still present")</pre>
+  </div>
+</section>
+
+<section>
+  <h2>Status &amp; Next Steps</h2>
+  <p><span class="ok">Completed:</span> DNA validation, restriction-site detection, mutation logic and testing.</p>
+  <p><b>Next:</b> link the core bio-logic with the software-architecture part and develop the web-app further.</p>
+</section>
+
+<section>
+  <h2>Conclusion</h2>
+  <p>The Restriction Site Mutagenesis Planner has its core biological logic in place, which is the basic processing the program needs.</p>
+</section>
+
+</main>
+
+<footer>Restriction Site Mutagenesis Planner · Progress Update 3</footer>
+</body>
+</html>
